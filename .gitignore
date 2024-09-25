@@ -1,0 +1,5 @@
+node_module
+.gitingnore
+package-lock.json
+pruebas
+keys.json
