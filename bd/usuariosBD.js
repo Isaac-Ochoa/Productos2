@@ -77,11 +77,11 @@ async function borrarUsuario(id) {
     password: "123"
 }*/
 
-var data = {
+/*var data = {
     nombre: "Erika",
     usuario: "eri",
     password: "1224"
-}
+}*/
 //nuevoUsuario(data);
 
 module.exports = {
