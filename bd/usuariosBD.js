@@ -40,6 +40,8 @@ async function buscarPorId(id) {
 
 
 async function nuevoUsuario(data) {
+    //console.log(data);
+    
     const { hash, salt } = encriptarPassword(data.password);
     data.password = hash;
     data.salt = salt;
@@ -47,8 +49,13 @@ async function nuevoUsuario(data) {
     const usuario1 = new Usuario(data)
     var usuariosValido = {};
     var usuarioGuardado = false;
+    //console.log(usuario1.datos);
+    
     if (validar(usuario1.datos)) {
         usuariosValido = usuario1.datos;
+        //console.log("--------------------------");
+        
+        //console.log(usuariosValido);
         await usuariosBD.doc().set(usuariosValido);
         usuarioGuardado=true;
     }
@@ -64,8 +71,26 @@ async function borrarUsuario(id) {
         await usuariosBD.doc(id).delete();
         usuarioBorrado = true;
     }
+    console.log(usuarioBorrado);
+    
     return usuarioBorrado;
 }
+
+async function editarUsuario(id, nuevosDatos) {
+    var usuarioValido = await buscarPorId(id);
+    var usuarioEditado = false;
+
+    if (usuarioValido) {
+        try {
+            await usuariosBD.doc(id).update(nuevosDatos);
+            usuarioEditado = true;
+        } catch (error) {
+            console.error("Error al editar el usuario:", error);
+        }
+    }
+    return usuarioEditado;
+}
+    
 //borrarUsuario("DvnUP8zKXJKY1gwVDRgY");
 //mostrarUsuarios();
 
@@ -88,5 +113,6 @@ module.exports = {
     mostrarUsuarios,
     nuevoUsuario,
     borrarUsuario,
-    buscarPorId
+    buscarPorId,
+    editarUsuario
 }

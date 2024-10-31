@@ -1,10 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const usuariosRutas = require("./rutas/rutasUsuarios");
 const productoRutas = require("./rutas/rutasProductos");
-const ventasRutas = require("./rutas/rutasVentas"); // Asegúrate de que esta ruta esté creada
+const ventasRutas = require("./rutas/rutasVentas");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(express.json());
 
 // Rutas

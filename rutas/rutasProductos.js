@@ -1,6 +1,6 @@
 var rutas=require("express").Router();
 
-var{mostrarProducto, nuevoProducto, borrarProducto, buscarPorId}=require("../bd/ProductoBD")
+var{mostrarProducto, nuevoProducto, borrarProducto, buscarPorId, editarProducto}=require("../bd/ProductoBD")
 
 rutas.get("/",async(req,res) =>{
     // res.send("Hola estas en la raiz")
@@ -25,5 +25,15 @@ rutas.get("/",async(req,res) =>{
      var productoBorrado = await borrarProducto(req.params.id);
      res.json(productoBorrado);
  })
+
+ rutas.put("/editarProducto/:id", async (req, res) => {
+    const id = req.params.id;
+    const nuevosDatos = req.body;
+    var productoEditado = await editarProducto(id, nuevosDatos);
+    res.json({
+        success: productoEditado,
+        message: productoEditado ? "Producto actualizado correctamente" : "Error al actualizar el producto"
+    });
+ });
  
  module.exports=rutas;

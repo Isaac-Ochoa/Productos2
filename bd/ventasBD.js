@@ -1,5 +1,6 @@
 const { ventasBD } = require("./Conexion");
-const Venta = require("../clases/Venta");
+const Venta = require("../clases/venta");
+const { buscarPorId } = require("./usuariosBD");
 
 // Validar la venta (verificar que tiene los datos requeridos)
 function validar(venta) {
@@ -62,9 +63,26 @@ async function cancelarVenta(id) {
     return ventaCancelada;
 }
 
+async function editarVenta(id, nuevosDatos) {
+    var ventaValida = await buscarPorId(id);
+    var ventaEditada = false;
+
+    if (ventaValida) {
+        const{estatus} = nuevosDatos;
+        try {
+            await ventasBD.doc(id).update(nuevosDatos);
+            ventaEditada = true;
+        } catch (error) {
+            console.error("Error al editar el venta:", error);
+        }
+    }
+    return ventaEditada;
+}
+
 module.exports = {
     mostrarVentas,
     nuevaVenta,
     cancelarVenta,
-    buscarVentaPorId
+    buscarVentaPorId,
+    editarVenta
 }

@@ -61,6 +61,21 @@ async function borrarProducto(id) {
     return productoBorrado;
 }
 
+async function editarProducto(id, nuevosDatos) {
+    var productoValido = await buscarPorId(id);
+    var productoEditado = false;
+
+    if(productoValido){
+        try{
+            await productosBD.doc(id).update(nuevosDatos);
+            productoEditado = true;
+        }catch (error){
+            console.error("Error al editar el producto:",error);
+        }
+    }
+    return productoEditado;
+}
+
 /*var data = {
     nombre: "Isaac",
     producto: "Coca",
@@ -72,5 +87,7 @@ module.exports = {
     mostrarProducto,
     nuevoProducto,
     borrarProducto,
-    buscarPorId
+    buscarPorId,
+    editarProducto
+    
 }
